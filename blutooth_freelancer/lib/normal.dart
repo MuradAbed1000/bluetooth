@@ -26,9 +26,12 @@ class _normalscreenState extends State<normalscreen> {
       appBar: AppBar(
         backgroundColor: Colors.white10,
         elevation: 0.0,
-        title: Image.asset(
-          'assets/1.png',
-          width: 240,
+        title: Padding(
+          padding: const EdgeInsets.only(top: 12),
+          child: Image.asset(
+            'assets/1.png',
+            width: 210,
+          ),
         ),
       ),
       body: ListView(

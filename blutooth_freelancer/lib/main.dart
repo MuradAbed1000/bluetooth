@@ -1,3 +1,4 @@
+import 'package:blutooth_freelancer/settings.dart';
 import 'package:blutooth_freelancer/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,8 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: Splash(),
-      home: normalscreen(),
+      home: SettingsScreen(),
     );
   }
 }
-
