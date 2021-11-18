@@ -1,3 +1,4 @@
+import 'package:blutooth_freelancer/normal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
@@ -89,38 +90,43 @@ class ScanResultTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      title: _buildTitle(context),
-      //leading: Text(result.rssi.toString()),
-      trailing: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            onPrimary: Colors.black,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15))),
-        child: Text(
-          'CONNECT',
-          style: TextStyle(fontSize: 17),
-        ),
-        onPressed: (result.advertisementData.connectable) ? onTap : null,
-      ),
-
-      children: <Widget>[
-        _buildAdvRow(
-            context, 'Complete Local Name', result.advertisementData.localName),
-        _buildAdvRow(context, 'Tx Power Level',
-            '${result.advertisementData.txPowerLevel ?? 'N/A'}'),
-        _buildAdvRow(context, 'Manufacturer Data',
-            getNiceManufacturerData(result.advertisementData.manufacturerData)),
-        _buildAdvRow(
-            context,
-            'Service UUIDs',
-            (result.advertisementData.serviceUuids.isNotEmpty)
-                ? result.advertisementData.serviceUuids.join(', ').toUpperCase()
-                : 'N/A'),
-        _buildAdvRow(context, 'Service Data',
-            getNiceServiceData(result.advertisementData.serviceData)),
-      ],
-    );
+        title: _buildTitle(context),
+        //leading: Text(result.rssi.toString()),
+        trailing: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              onPrimary: Colors.black,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15))),
+          child: Text(
+            'CONNECT',
+            style: TextStyle(fontSize: 17),
+          ),
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => normalscreen()),
+          ),
+          // children: <Widget>[
+          //   _buildAdvRow(context, 'Complete Local Name',
+          //       result.advertisementData.localName),
+          //   _buildAdvRow(context, 'Tx Power Level',
+          //       '${result.advertisementData.txPowerLevel ?? 'N/A'}'),
+          //   _buildAdvRow(
+          //       context,
+          //       'Manufacturer Data',
+          //       getNiceManufacturerData(
+          //           result.advertisementData.manufacturerData)),
+          //   _buildAdvRow(
+          //       context,
+          //       'Service UUIDs',
+          //       (result.advertisementData.serviceUuids.isNotEmpty)
+          //           ? result.advertisementData.serviceUuids
+          //               .join(', ')
+          //               .toUpperCase()
+          //           : 'N/A'),
+          //   _buildAdvRow(context, 'Service Data',
+          //       getNiceServiceData(result.advertisementData.serviceData)),
+          // ],
+        ));
   }
 }
 
@@ -140,10 +146,12 @@ class ServiceTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Service'),
+            Text('Service', style: TextStyle(color: Colors.white)),
             Text('0x${service.uuid.toString().toUpperCase().substring(4, 8)}',
-                style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                    color: Theme.of(context).textTheme.caption?.color))
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2
+                    ?.copyWith(color: Colors.white))
           ],
         ),
         children: characteristicTiles,
@@ -187,14 +195,19 @@ class CharacteristicTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('Characteristic'),
+                Text('Characteristic', style: TextStyle(color: Colors.white)),
                 Text(
                     '0x${characteristic.uuid.toString().toUpperCase().substring(4, 8)}',
-                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                        color: Theme.of(context).textTheme.caption?.color))
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(color: Colors.white))
               ],
             ),
-            subtitle: Text(value.toString()),
+            subtitle: Text(
+              value.toString(),
+              style: TextStyle(color: Colors.white),
+            ),
             contentPadding: EdgeInsets.all(0.0),
           ),
           trailing: Row(
@@ -203,13 +216,12 @@ class CharacteristicTile extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   Icons.file_download,
-                  color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
+                  color: Colors.white,
                 ),
                 onPressed: onReadPressed,
               ),
               IconButton(
-                icon: Icon(Icons.file_upload,
-                    color: Theme.of(context).iconTheme.color?.withOpacity(0.5)),
+                icon: Icon(Icons.file_upload, color: Colors.white),
                 onPressed: onWritePressed,
               ),
               IconButton(
@@ -217,7 +229,7 @@ class CharacteristicTile extends StatelessWidget {
                     characteristic.isNotifying
                         ? Icons.sync_disabled
                         : Icons.sync,
-                    color: Theme.of(context).iconTheme.color?.withOpacity(0.5)),
+                    color: Colors.white),
                 onPressed: onNotificationPressed,
               )
             ],
@@ -248,18 +260,25 @@ class DescriptorTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Descriptor'),
+          Text(
+            'Descriptor',
+            style: TextStyle(color: Colors.white),
+          ),
           Text('0x${descriptor.uuid.toString().toUpperCase().substring(4, 8)}',
+              // style: TextStyle(color: Colors.white),
               style: Theme.of(context)
                   .textTheme
                   .bodyText2
-                  ?.copyWith(color: Theme.of(context).textTheme.caption?.color))
+                  ?.copyWith(color: Colors.white))
         ],
       ),
       subtitle: StreamBuilder<List<int>>(
         stream: descriptor.value,
         initialData: descriptor.lastValue,
-        builder: (c, snapshot) => Text(snapshot.data.toString()),
+        builder: (c, snapshot) => Text(
+          snapshot.data.toString(),
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -267,14 +286,14 @@ class DescriptorTile extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.file_download,
-              color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
+              color: Colors.white,
             ),
             onPressed: onReadPressed,
           ),
           IconButton(
             icon: Icon(
               Icons.file_upload,
-              color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
+              color: Colors.white,
             ),
             onPressed: onWritePressed,
           )

@@ -32,7 +32,7 @@ class BluetoothOffScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue,
+      backgroundColor: Colors.black,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -86,8 +86,8 @@ class FindDevicesScreen extends StatelessWidget {
                             .map((d) => ListTile(
                                   title: Text(
                                     d.name,
+                                    style: TextStyle(color: Colors.white),
                                   ),
-                                  subtitle: Text(d.id.toString()),
                                   trailing: StreamBuilder<BluetoothDeviceState>(
                                     stream: d.state,
                                     initialData:
@@ -223,7 +223,10 @@ class DeviceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
+        backgroundColor: Colors.black,
+        elevation: 0.0,
         title: Text(device.name),
         actions: <Widget>[
           StreamBuilder<BluetoothDeviceState>(
@@ -247,9 +250,9 @@ class DeviceScreen extends StatelessWidget {
                   break;
               }
               return FlatButton(
-                  color: Colors.white,
+                  color: Colors.black,
                   onPressed: onPressed,
-                  child: Text(text, style: TextStyle(color: Colors.black)));
+                  child: Text(text, style: TextStyle(color: Colors.white)));
             },
           )
         ],
@@ -262,11 +265,22 @@ class DeviceScreen extends StatelessWidget {
               initialData: BluetoothDeviceState.connecting,
               builder: (c, snapshot) => ListTile(
                 leading: (snapshot.data == BluetoothDeviceState.connected)
-                    ? Icon(Icons.bluetooth_connected)
-                    : Icon(Icons.bluetooth_disabled),
+                    ? Icon(
+                        Icons.bluetooth_connected,
+                        color: Colors.white24,
+                      )
+                    : Icon(
+                        Icons.bluetooth_disabled,
+                        color: Colors.white24,
+                      ),
                 title: Text(
-                    'Device is ${snapshot.data.toString().split('.')[1]}.'),
-                subtitle: Text('${device.id}'),
+                  'Device is ${snapshot.data.toString().split('.')[1]}.',
+                  style: TextStyle(color: Colors.white),
+                ),
+                subtitle: Text(
+                  '${device.id}',
+                  style: TextStyle(color: Colors.white),
+                ),
                 trailing: StreamBuilder<bool>(
                   stream: device.isDiscoveringServices,
                   initialData: false,
@@ -274,13 +288,16 @@ class DeviceScreen extends StatelessWidget {
                     index: snapshot.data! ? 1 : 0,
                     children: <Widget>[
                       IconButton(
-                        icon: Icon(Icons.refresh),
+                        icon: Icon(
+                          Icons.refresh,
+                          color: Colors.white,
+                        ),
                         onPressed: () => device.discoverServices(),
                       ),
                       IconButton(
                         icon: SizedBox(
                           child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.grey),
+                            valueColor: AlwaysStoppedAnimation(Colors.white12),
                           ),
                           width: 18.0,
                           height: 18.0,
@@ -296,10 +313,19 @@ class DeviceScreen extends StatelessWidget {
               stream: device.mtu,
               initialData: 0,
               builder: (c, snapshot) => ListTile(
-                title: Text('MTU Size'),
-                subtitle: Text('${snapshot.data} bytes'),
+                title: Text(
+                  'MTU Size',
+                  style: TextStyle(color: Colors.white),
+                ),
+                subtitle: Text(
+                  '${snapshot.data} bytes',
+                  style: TextStyle(color: Colors.white),
+                ),
                 trailing: IconButton(
-                  icon: Icon(Icons.edit),
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                  ),
                   onPressed: () => device.requestMtu(223),
                 ),
               ),

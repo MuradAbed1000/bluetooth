@@ -24,6 +24,7 @@ class _normalscreenState extends State<normalscreen> {
     _handleSize = (widget.height! - (widget.borderWidth! * 2));
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white10,
         elevation: 0.0,
         title: Padding(
@@ -33,6 +34,7 @@ class _normalscreenState extends State<normalscreen> {
             width: 210,
           ),
         ),
+        centerTitle: true,
       ),
       body: ListView(
         children: [

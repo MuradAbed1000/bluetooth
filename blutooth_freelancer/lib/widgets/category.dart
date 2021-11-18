@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../settings.dart';
 import 'category_card.dart';
 
 class Category extends StatelessWidget {
@@ -34,13 +35,16 @@ class Category extends StatelessWidget {
             name: 'Quite',
           ),
           CategoryCard(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (_) => SettingsScreen()));
+            },
             icon: Icon(
               Icons.settings,
               size: 40,
             ),
             name: 'Settings',
           )
-          
         ],
       ),
     );

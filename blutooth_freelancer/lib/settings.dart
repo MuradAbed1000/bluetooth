@@ -20,10 +20,13 @@ class SettingsScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Icon(
-                Icons.arrow_back_ios,
-                color: Colors.black87,
-                size: 35,
+              GestureDetector(
+                onTap: () => Navigator.of(context).pop(),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black87,
+                  size: 35,
+                ),
               ),
               Text(
                 'Back',
