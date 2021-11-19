@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/blutooth_freelancer/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/blutooth_freelancer/build" />
+      <excludeFolder url="file://$MODULE_DIR$/blutooth_freelancer/.dart_tool" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
