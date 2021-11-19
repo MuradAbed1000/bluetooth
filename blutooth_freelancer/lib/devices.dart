@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:blutooth_freelancer/normal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'widgets/bluetooth_connection.dart';
@@ -121,7 +122,7 @@ class FindDevicesScreen extends StatelessWidget {
                                 onTap: () => Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) {
                                   r.device.connect();
-                                  return DeviceScreen(device: r.device);
+                                  return normalscreen(device: r.device);
                                 })),
                               ),
                             )

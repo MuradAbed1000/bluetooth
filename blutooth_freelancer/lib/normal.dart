@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/animatedswipetoconfirm.dart';
 import 'widgets/category.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
 class normalscreen extends StatefulWidget {
   final double? height;
   final double? borderWidth;
+  final BluetoothDevice? device;
 
-  normalscreen({Key? key, this.height = 60, this.borderWidth = 3})
+  normalscreen({Key? key, this.height = 60, this.borderWidth = 3, this.device})
       : super(key: key);
 
   @override
@@ -14,14 +17,8 @@ class normalscreen extends StatefulWidget {
 }
 
 class _normalscreenState extends State<normalscreen> {
-  late double _maxWidth;
-  late double _handleSize;
-  double _dragValue = 0;
-  double _dragWidth = 0;
-  bool _confirmed = false;
   @override
   Widget build(BuildContext context) {
-    _handleSize = (widget.height! - (widget.borderWidth! * 2));
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -44,84 +41,25 @@ class _normalscreenState extends State<normalscreen> {
             height: widget.height,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: LayoutBuilder(
-              builder: (context, constraint) {
-                _maxWidth = constraint.maxWidth;
-                return Container(
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(50),
-                    border: Border.all(
-                        color: Colors.black, width: widget.borderWidth!),
-                  ),
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Text(_confirmed ? 'confirmed' : 'Swipe to open',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(
-                                    color: _confirmed
-                                        ? Colors.black54
-                                        : Colors.white)),
-                      ),
-                      AnimatedContainer(
-                        duration: Duration(microseconds: 100),
-                        width: _dragWidth <= _handleSize
-                            ? _handleSize
-                            : _dragWidth,
-                        child: Row(
-                          children: [
-                            Expanded(child: SizedBox.shrink()),
-                            GestureDetector(
-                              onVerticalDragUpdate: _onDrageUpdate,
-                              onVerticalDragEnd: _onDrageEnd,
-                              child: Container(
-                                width: _handleSize,
-                                height: _handleSize,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(50)),
-                                child: Icon(
-                                  Icons.keyboard_arrow_right_rounded,
-                                  color: Colors.black,
-                                  size: 40,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                );
+            padding: EdgeInsets.all(8.0),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: AnimatedSwipeToConfirm(
+              onConfirm: () {
+                // setState(() {
+                //   text = "Thank you :)";
+                // });
+              },
+              onCancel: () {
+                setState(() {
+                  // text = "Please subscribe";
+                });
               },
             ),
-          )
+          ),
         ],
       ),
     );
-  }
-
-  void _onDrageUpdate(DragUpdateDetails details) {
-    setState(() {
-      _dragValue = (details.globalPosition.dx) / _maxWidth;
-      _dragWidth = _maxWidth * _dragValue;
-    });
-  }
-
-  void _onDrageEnd(DragEndDetails details) {
-    if (_dragValue > .9) {
-      _dragValue = 1;
-    } else {
-      _dragValue = 0;
-    }
-    setState(() {
-      _dragWidth = _maxWidth * _dragValue;
-      _confirmed = _dragWidth == 1;
-    });
   }
 }
